@@ -8,8 +8,10 @@ use App\Models\Kids;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -33,47 +35,85 @@ class KidsResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Información del niño')
-                ->description('Informaciónes relevantes del niño')
-                ->schema([
-                    Forms\Components\TextInput::make('name'),
-                    Forms\Components\TextInput::make('last_name'),
-                    Select::make('gender')
-                        ->label('Genero')
-                        ->options([
-                            'Femenino' => 'Femenino',
-                            'Masculino' => 'Masculino',
-                        ]),
-                    Forms\Components\DatePicker::make('born_date'),
-                    Forms\Components\TextInput::make('address'),
-                    Forms\Components\TextInput::make('insurance'),
-                    Forms\Components\TextInput::make('insurance_number'),
-                    Forms\Components\Textarea::make('allergies')
-                        ->columnSpanFull(),
-                    Forms\Components\Textarea::make('medical_conditions')
-                        ->columnSpanFull(),
-                    Forms\Components\Textarea::make('medications')
-                        ->columnSpanFull(),
-                ])->columnSpan(2)->columns(2),
-                Group::make()
-                ->schema([
-                    Section::make('Perfil')
-                        ->collapsible()
+                Wizard::make([
+                    Wizard\Step::make('Niño')
+                        ->description('Información del niño')
                         ->schema([
-                            FileUpload::make('imagen')
-                            ->label(false)
-                            ->image()
-                            ->avatar()
-                            ->imageEditor()
-                            ->circleCropper()
-                            ->alignCenter(true)
-                        ])->columnSpan(1)
+                            Section::make('Información del general')
+                            // ->description('Informaciónes relevantes del niño')
+                            ->schema([
+                                Forms\Components\TextInput::make('name'),
+                                Forms\Components\TextInput::make('last_name'),
+                                Select::make('gender')
+                                    ->label('Genero')
+                                    ->options([
+                                        'Femenino' => 'Femenino',
+                                        'Masculino' => 'Masculino',
+                                    ]),
+                                Forms\Components\DatePicker::make('born_date'),
+                                Forms\Components\TextInput::make('address'),
+                                Forms\Components\TextInput::make('insurance'),
+                                Forms\Components\TextInput::make('insurance_number'),
+                                Forms\Components\Textarea::make('allergies')
+                                    ->columnSpanFull(),
+                                Forms\Components\Textarea::make('medical_conditions')
+                                    ->columnSpanFull(),
+                                Forms\Components\Textarea::make('medications')
+                                    ->columnSpanFull(),
+                            ])->columnSpan(2)->columns(2),
+                            Group::make()
+                            ->schema([
+                                Section::make('Perfil')
+                                    ->collapsible()
+                                    ->schema([
+                                        FileUpload::make('imagen')
+                                        ->label(false)
+                                        ->image()
+                                        ->avatar()
+                                        ->imageEditor()
+                                        ->circleCropper()
+                                        ->alignCenter(true)
+                                    ])->columnSpan(1)
+                            ])
+                        ])->columns([
+                            'default'=>3,
+                            'sm'=>3,
+                            'md'=>3,
+                            'lg'=>3,
+                        ]),
+                    Wizard\Step::make('Padres')
+                        ->description('Información de los padres')
+                        ->schema([
+                            Repeater::make('fathers')
+                            ->schema([
+                                Forms\Components\TextInput::make('name')->required(),
+                                Select::make('relationship')
+                                    ->options([
+                                        'Padre' => 'Padre',
+                                        'Madre' => 'Madre',
+                                        'Hermana' => 'Hermana',
+                                        'Hermano' => 'Hermano',
+                                        'Tia' => 'Tia',
+                                        'Hermano' => 'Hermano',
+                                    ])
+                                    ->required(),
+                                    Forms\Components\TextInput::make('name')->required(),
+                                    Forms\Components\TextInput::make('name')->required(),
+                                    Forms\Components\TextInput::make('name')->required(),
+                                    Forms\Components\TextInput::make('name')->required(),
+                                    Forms\Components\TextInput::make('name')->required(),
+                            ])
+                            ->columns(2)
+                        ]),
+                    Wizard\Step::make('Tutores')
+                        ->description('Información de los padres')
+                        ->schema([
+                            // ...
+                        ]),
                 ])
-            ])->columns([
-                'default'=>3,
-                'sm'=>3,
-                'md'=>3,
-                'lg'=>3,
+                ->skippable()
+                ->columnSpanFull()
+                ->persistStepInQueryString()
             ]);
     }
 

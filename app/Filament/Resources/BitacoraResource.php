@@ -17,6 +17,12 @@ class BitacoraResource extends Resource
 {
     protected static ?string $model = Bitacora::class;
 
+    protected static ?string $navigationLabel = 'Historial';
+
+    protected static ?string $modelLabel = 'Historial';
+
+    protected static ?string $pluralModelLabel = 'Historial';
+
     protected static ?string $navigationIcon = 'heroicon-m-clipboard-document-list';
 
     public static function form(Form $form): Form

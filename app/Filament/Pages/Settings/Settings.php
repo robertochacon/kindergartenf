@@ -47,12 +47,12 @@ class Settings extends BaseSettings
 
     public static function getNavigationLabel(): string
     {
-        return 'Parametros';
+        return 'Configuraciones';
     }
 
     public function getTitle(): string
     {
-        return 'Parametros generales';
+        return 'Configuraciones';
     }
 
 }
