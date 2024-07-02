@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PaymentsResource\Pages;
 use App\Filament\Resources\PaymentsResource\RelationManagers;
+use App\Models\Kids;
 use App\Models\Payments;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -29,8 +30,10 @@ class PaymentsResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('kid_id')
-                    ->numeric(),
+                Forms\Components\Select::make('kid_id')
+                    ->label('Selecione un niño/a')
+                    ->options(Kids::all()->pluck('name', 'id'))
+                    ->searchable(),
                 Forms\Components\TextInput::make('user_id')
                     ->numeric(),
                 Forms\Components\Textarea::make('description')
@@ -44,6 +47,12 @@ class PaymentsResource extends Resource
                     ->numeric(),
                 Forms\Components\TextInput::make('type')
                     ->required(),
+                Forms\Components\Select::make('type')
+                    ->label('Tipo de pago')
+                    ->options([
+                        'Efectivo' => 'Efectivo',
+                        'Tarjeta' => 'Tarjeta',
+                    ]),
             ]);
     }
 
