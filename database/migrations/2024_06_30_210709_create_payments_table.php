@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('kid_id')->nullable();
+            $table->foreign('kid_id')->references('id')->on('kids');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->longText('description')->nullable();
+            $table->float('cost')->nullable();
+            $table->float('taxes')->nullable();
+            $table->float('total')->nullable();
+            $table->enum('type',['Efectivo','Tarjeta'])->default('Efectivo');
             $table->timestamps();
         });
     }

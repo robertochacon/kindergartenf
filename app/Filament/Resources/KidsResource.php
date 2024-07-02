@@ -45,6 +45,7 @@ class KidsResource extends Resource
                                 Forms\Components\TextInput::make('name'),
                                 Forms\Components\TextInput::make('last_name'),
                                 Select::make('gender')
+                                    ->required()
                                     ->label('Genero')
                                     ->options([
                                         'Femenino' => 'Femenino',
@@ -91,19 +92,16 @@ class KidsResource extends Resource
                                     ->options([
                                         'Padre' => 'Padre',
                                         'Madre' => 'Madre',
-                                        'Hermana' => 'Hermana',
-                                        'Hermano' => 'Hermano',
-                                        'Tia' => 'Tia',
-                                        'Hermano' => 'Hermano',
                                     ])
                                     ->required(),
-                                    Forms\Components\TextInput::make('name')->required(),
-                                    Forms\Components\TextInput::make('name')->required(),
-                                    Forms\Components\TextInput::make('name')->required(),
-                                    Forms\Components\TextInput::make('name')->required(),
-                                    Forms\Components\TextInput::make('name')->required(),
+                                    Forms\Components\TextInput::make('identification'),
+                                    Forms\Components\TextInput::make('phone'),
+                                    Forms\Components\TextInput::make('address'),
+                                    Forms\Components\TextInput::make('work_phone'),
+                                    Forms\Components\TextInput::make('work_phone_ext'),
                             ])
-                            ->columns(2)
+                            ->cloneable()
+                            ->columns(3)
                         ]),
                     Wizard\Step::make('Tutores')
                         ->description('Información de los padres')

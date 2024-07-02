@@ -24,6 +24,8 @@ return new class extends Migration
             $table->text("medical_conditions")->nullable();
             $table->text("medications")->nullable();
             $table->string("image")->nullable();
+            $table->json("fathers")->nullable();
+            $table->json("tutors")->nullable();
             $table->timestamps();
         });
     }
